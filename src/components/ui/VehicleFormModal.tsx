@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { X, Trash2 } from "lucide-react";
 import { Vehicle, Pegawai } from "@/types";
 import { EmployeeAutocomplete, isOfficialEmployeeSelection } from "@/components/ui/EmployeeAutocomplete";
 import { AssetMediaFields } from "@/components/ui/AssetMediaFields";
 import { useToast } from "@/components/ui/Toast";
+import { formatNumber } from "@/lib/utils";
 import { dataService } from "@/services/dataService";
 import { apiService, fileToBase64 } from "@/services/apiService";
 import { optionalCoordinatePayload } from "@/lib/coordinates";
@@ -36,6 +37,20 @@ export function VehicleFormModal({ isOpen, onClose, initialData, employees, onSa
       setPhotoFile(null);
     }
   }, [isOpen, initialData]);
+
+  const locations = useMemo(() => {
+    const locs = employees.map(e => e.unit_kerja).filter(Boolean) as string[];
+    return Array.from(new Set(locs)).sort();
+  }, [employees]);
+
+  const currentYear = new Date().getFullYear() + 1;
+  const yearOptions = useMemo(() => {
+    const years = [];
+    for (let y = currentYear; y >= 1990; y--) {
+      years.push(y);
+    }
+    return years;
+  }, [currentYear]);
 
   if (!isOpen) return null;
 
@@ -97,7 +112,6 @@ export function VehicleFormModal({ isOpen, onClose, initialData, employees, onSa
       no_mesin: normalizeAssetText(formData.no_mesin),
       harga_pembelian: optionalAssetNumber(formData.harga_pembelian),
       foto: formData.foto,
-      qr_url: formData.qr_url,
       ...coordinateResult.payload,
     };
     if (isValidAssetCondition(normalizedCondition)) {
@@ -177,28 +191,79 @@ export function VehicleFormModal({ isOpen, onClose, initialData, employees, onSa
             </div>
 
             <div className="flex flex-col gap-1">
+              <label className="text-xs font-medium text-gray-500">Jenis Kendaraan</label>
+              <input list="jenis-list" value={formData.jenis_kendaraan || ""} onChange={e => setFormData({...formData, jenis_kendaraan: e.target.value})} className={vehicleInputCls} placeholder="Contoh: Roda 4" />
+              <datalist id="jenis-list">
+                <option value="Roda 2" />
+                <option value="Roda 3" />
+                <option value="Roda 4" />
+                <option value="Roda 6" />
+                <option value="Lebih dari Roda 6" />
+              </datalist>
+            </div>
+
+            <div className="flex flex-col gap-1">
               <label className="text-xs font-medium text-gray-500">Merk / Model *</label>
-              <input required value={formData.merk || ""} onChange={e => setFormData({...formData, merk: e.target.value})} className={vehicleInputCls} placeholder="Contoh: Toyota Innova" />
+              <input required list="merk-list" value={formData.merk || ""} onChange={e => setFormData({...formData, merk: e.target.value})} className={vehicleInputCls} placeholder="Contoh: Toyota Innova" />
+              <datalist id="merk-list">
+                <option value="Toyota" />
+                <option value="Honda" />
+                <option value="Daihatsu" />
+                <option value="Suzuki" />
+                <option value="Mitsubishi" />
+                <option value="Nissan" />
+                <option value="Yamaha" />
+                <option value="Kawasaki" />
+                <option value="Isuzu" />
+                <option value="Wuling" />
+                <option value="Hyundai" />
+              </datalist>
             </div>
 
             <div className="flex flex-col gap-1">
               <label className="text-xs font-medium text-gray-500">Tipe / Kategori</label>
-              <input value={formData.tipe || ""} onChange={e => setFormData({...formData, tipe: e.target.value})} className={vehicleInputCls} placeholder="Contoh: Minibus" />
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <label className="text-xs font-medium text-gray-500">Jenis Pemakaian</label>
-              <input value={formData.jenis_kendaraan || ""} onChange={e => setFormData({...formData, jenis_kendaraan: e.target.value})} className={vehicleInputCls} placeholder="Contoh: Roda 4" />
+              <input list="tipe-list" value={formData.tipe || ""} onChange={e => setFormData({...formData, tipe: e.target.value})} className={vehicleInputCls} placeholder="Contoh: Minibus" />
+              <datalist id="tipe-list">
+                <option value="Minibus" />
+                <option value="SUV" />
+                <option value="MPV" />
+                <option value="Sedan" />
+                <option value="Hatchback" />
+                <option value="Pickup" />
+                <option value="Truck" />
+                <option value="Sepeda Motor" />
+              </datalist>
             </div>
 
             <div className="flex flex-col gap-1">
               <label className="text-xs font-medium text-gray-500">Tahun Pembuatan</label>
-              <input type="number" min="1900" max={new Date().getFullYear() + 1} value={formData.tahun ?? ""} onChange={e => setFormData({...formData, tahun: e.target.value || undefined})} className={vehicleInputCls} placeholder="Contoh: 2018" />
+              <select 
+                value={formData.tahun ?? ""} 
+                onChange={e => setFormData({...formData, tahun: e.target.value ? parseInt(e.target.value, 10) : undefined})} 
+                className={`${vehicleInputCls} text-gray-900 dark:text-gray-100`}
+              >
+                <option value="" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800">-- Pilih Tahun --</option>
+                {yearOptions.map(y => (
+                  <option key={y} value={y} className="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800">{y}</option>
+                ))}
+              </select>
             </div>
 
             <div className="flex flex-col gap-1">
-              <label className="text-xs font-medium text-gray-500">Harga Pembelian</label>
-              <input type="number" min="0" step="1" value={formData.harga_pembelian ?? ""} onChange={e => setFormData({...formData, harga_pembelian: e.target.value})} className={vehicleInputCls} placeholder="Nilai rupiah tanpa pemisah" />
+              <label className="text-xs font-medium text-gray-500">Harga Pembelian (Rp)</label>
+              <div className="relative flex items-center">
+                <span className="absolute left-3 text-sm text-gray-500 font-medium">Rp</span>
+                <input 
+                  type="text" 
+                  value={formData.harga_pembelian != null ? formatNumber(Number(formData.harga_pembelian)) : ""} 
+                  onChange={e => {
+                    const raw = e.target.value.replace(/[^0-9]/g, '');
+                    setFormData({...formData, harga_pembelian: raw ? parseInt(raw, 10) : undefined});
+                  }} 
+                  className={`${vehicleInputCls} pl-9 w-full`} 
+                  placeholder="Contoh: 150.000.000" 
+                />
+              </div>
             </div>
 
             <div className="flex flex-col gap-1">
@@ -262,7 +327,12 @@ export function VehicleFormModal({ isOpen, onClose, initialData, employees, onSa
 
             <div className="flex flex-col gap-1 md:col-span-2">
               <label className="text-xs font-medium text-gray-500">Lokasi / Unit Kerja</label>
-              <input value={formData.lokasi || ""} onChange={e => setFormData({...formData, lokasi: e.target.value})} className={vehicleInputCls} placeholder="Lokasi penempatan kendaraan" />
+              <input list="lokasi-list" value={formData.lokasi || ""} onChange={e => setFormData({...formData, lokasi: e.target.value})} className={vehicleInputCls} placeholder="Lokasi penempatan kendaraan" />
+              <datalist id="lokasi-list">
+                {locations.map(loc => (
+                  <option key={loc} value={loc} />
+                ))}
+              </datalist>
             </div>
 
 
@@ -282,11 +352,6 @@ export function VehicleFormModal({ isOpen, onClose, initialData, employees, onSa
               photoLabel="Foto Kendaraan"
               autoLocate={!formData.asset_id}
             />
-
-            <div className="flex flex-col gap-1 md:col-span-2">
-              <label className="text-xs font-medium text-gray-500">URL / Isi QR Code</label>
-              <input value={formData.qr_url || ""} onChange={e => setFormData({...formData, qr_url: e.target.value})} className={vehicleInputCls} placeholder="Kosongkan untuk memakai ID aset" />
-            </div>
 
           </div>
           
