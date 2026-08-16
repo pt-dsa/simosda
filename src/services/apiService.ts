@@ -240,7 +240,7 @@ export const apiService = {
 
   uploadFoto: async (params: { nip: string; base64: string; mimeType: string; fileName: string }) => {
     const blob = base64ToBlob(params.base64, params.mimeType);
-    const path = `${params.nip}/${Date.now()}-${params.fileName}`;
+    const path = `pegawai/${params.nip}/${Date.now()}-${params.fileName}`;
     const { data, error } = await supabase.storage.from(PHOTO_BUCKET).upload(path, blob, { contentType: params.mimeType });
     if (error) throw error;
     
