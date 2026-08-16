@@ -3,7 +3,7 @@ import { nextCycleDate, pensionDate, buildPenjagaanEvents } from "@/lib/penjagaa
 import { buildUnifiedAssets, buildFuzzyNipSet, rekapKelengkapan } from "@/lib/kelengkapan";
 import type { DashboardMetrics, DistribusiItem } from "@/types";
 import { apiService, onDataMutation } from "@/services/apiService";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase, PHOTO_BUCKET } from "@/lib/supabaseClient";
 import { normalizeIndonesianPhoneNumber } from "@/lib/contact";
 import { resolveVehicleItemCode } from "@/lib/assetIdentity";
 import { coordinatePairFromRow } from "@/lib/coordinates";
@@ -425,11 +425,17 @@ export const dataService = {
       // Nomor polisi dan kode barang adalah dua identitas berbeda. Jangan
       // menyalin kode barang ke nomor polisi ketika data nomor polisi kosong.
       let no_polisi = item.plate_number || item.no_polisi || "";
-      let foto = item.photo_legacy || item.foto || item.photo;
-      if (no_polisi === "B 6590 WAQ" || no_polisi === "B 6590 MAQ")
-        foto = "Kendaraan_Images/B 6590 WAQ.jpg";
-      else if (no_polisi === "B 6924 NQA.")
-        foto = "Kendaraan_Images/B 6924 NQA..jpg";
+      let foto = "";
+      const fotoStoragePath = String(item.foto_storage_path || "").trim();
+      if (fotoStoragePath) {
+        foto = supabase.storage.from('asset-photos').getPublicUrl(fotoStoragePath).data.publicUrl;
+      } else {
+        foto = item.photo_legacy || item.foto || item.photo;
+        if (no_polisi === "B 6590 WAQ" || no_polisi === "B 6590 MAQ")
+          foto = "Kendaraan_Images/B 6590 WAQ.jpg";
+        else if (no_polisi === "B 6924 NQA.")
+          foto = "Kendaraan_Images/B 6924 NQA..jpg";
+      }
       const assetId = String(item.asset_id || item.id || "").trim();
       const ownCoordinates = coordinatePairFromRow(item);
       const coordinates = ownCoordinates.latitude !== undefined
@@ -511,7 +517,9 @@ export const dataService = {
         harga_pembelian: item.acquisition_price ?? item.harga_pembelian ?? "",
         latitude: coordinates.latitude,
         longitude: coordinates.longitude,
-        foto: item.photo_legacy || item.foto || item.photo,
+        foto: String(item.foto_storage_path || "").trim() 
+          ? supabase.storage.from('asset-photos').getPublicUrl(String(item.foto_storage_path || "").trim()).data.publicUrl 
+          : (item.photo_legacy || item.foto || item.photo),
         qr_url: item.qr_legacy_url || item.qr_url,
         kib_index: String(item.kib_index || item.index || ""),
         unit_indexes: Array.isArray(item.unit_indexes) ? item.unit_indexes.map((value: unknown) => String(value)) : [],
@@ -598,7 +606,10 @@ export const dataService = {
 
         const tglMulaiGolongan = String(item.terhitung_mulai_tanggal_golongan || item.tgl_mulai_golongan || "").trim();
         const tglLahir = String(item.tanggal_lahir || item.tgl_lahir || "").trim();
-        const foto = convertGDriveUrl(String(item.foto || "").trim());
+        const fotoStoragePath = String(item.foto_storage_path || "").trim();
+        const foto = fotoStoragePath 
+          ? supabase.storage.from(PHOTO_BUCKET).getPublicUrl(fotoStoragePath).data.publicUrl
+          : convertGDriveUrl(String(item.foto || "").trim());
         
         const jabatanRaw = String(item.jabatan || "").trim();
         const golonganRaw = String(item.golongan || "").trim();
