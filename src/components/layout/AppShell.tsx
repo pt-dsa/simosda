@@ -593,7 +593,7 @@ function BottomNav({ setMobileSidebarOpen }: { setMobileSidebarOpen: (v: boolean
   const bottomItems = [
     { icon: LayoutDashboard, label: "Home", href: "/dashboard", menu: "dashboard" as MenuKey },
     { icon: Users, label: "Pegawai", href: "/pegawai", menu: "pegawai" as MenuKey },
-    { icon: CarFront, label: "Data Kendaraan", href: "/kendaraan", menu: "kendaraan" as MenuKey },
+    { icon: CarFront, label: "Aset", href: "/kendaraan", menu: "kendaraan" as MenuKey },
     { icon: CalendarCheck, label: "Penjagaan", href: "/buku-penjagaan", menu: "buku-penjagaan" as MenuKey },
   ].filter(it => canViewMenu(user?.role, it.menu));
 
