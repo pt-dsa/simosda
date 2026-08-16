@@ -51,6 +51,10 @@ jobs:
 
       - name: E2E Test (Bypass Login)
         run: npm run test
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_SUPABASE_PHOTO_BUCKET: ${{ secrets.VITE_SUPABASE_PHOTO_BUCKET || 'pegawai-photos' }}
 
       - name: Audit dependensi produksi
         run: npm audit --omit=dev --audit-level=high
