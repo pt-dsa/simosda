@@ -438,10 +438,10 @@ export default function Dashboard() {
             </section>
           )}
 
-          {/* ── SECTION 3: Komposisi SDM ── */}
+          {/* ── SECTION 3: Distribusi SDM Pegawai ── */}
           <section className="order-3">
             <h2 className="text-sm font-black text-gray-800 dark:text-gray-200 mb-3 pb-2 border-b border-gray-200 dark:border-gray-800 uppercase tracking-wider">
-              Komposisi SDM
+              Distribusi SDM Pegawai
             </h2>
             <motion.div variants={itemVars} className="grid grid-cols-1 xl:grid-cols-3 gap-5 items-stretch">
               {/* Golongan Donut */}
