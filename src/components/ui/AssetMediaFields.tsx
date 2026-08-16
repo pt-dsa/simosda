@@ -148,7 +148,6 @@ export function AssetMediaFields({
             title={`Minimap ${photoLabel}`}
             src={osmMiniMapUrl(coordinatePair.latitude, coordinatePair.longitude)}
             className="block h-44 w-full border-0 bg-gray-100 dark:bg-gray-800"
-            loading="lazy"
             referrerPolicy="no-referrer"
           />
         </div>

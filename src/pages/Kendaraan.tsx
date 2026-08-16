@@ -577,7 +577,6 @@ export default function Kendaraan() {
                           src={`https://maps.google.com/maps?q=${lat},${lng}&z=15&output=embed`} 
                           allowFullScreen 
                           title="Lokasi"
-                          loading="lazy"
                         />
                         <a 
                           href={`https://maps.google.com/?q=${lat},${lng}`} 

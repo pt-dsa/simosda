@@ -109,7 +109,6 @@ export function PegawaiAvatar({ foto, nama, nip, size = "md" }: { foto: string; 
       src={source}
       alt={nama}
       className={`${cls} rounded-full object-cover border-2 border-gray-200 dark:border-gray-700 shrink-0`}
-      loading="lazy"
       decoding="async"
       referrerPolicy="no-referrer"
       onError={() => void handleImageError()}

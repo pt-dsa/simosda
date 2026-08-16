@@ -892,7 +892,7 @@ export default function KelolaAkun() {
                 </label>}
               </div>
 
-              <div className="p-3 sm:p-4 pb-6 sm:pb-4 border-t border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/30 flex justify-end gap-3 safe-area-bottom">
+              <div className="p-3 sm:p-4 pb-24 sm:pb-4 border-t border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/30 flex justify-end gap-3 safe-area-bottom">
                 <button onClick={() => setIsFormOpen(false)} disabled={saving} className="flex-1 sm:flex-none min-h-11 px-4 py-2 text-sm font-bold text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50">
                   Batal
                 </button>

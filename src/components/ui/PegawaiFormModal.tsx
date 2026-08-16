@@ -588,8 +588,7 @@ export function PegawaiFormModal({
             </div>
           </form>
         </div>
-
-        <div className="safe-area-bottom pb-6 sm:pb-4 p-4 border-t border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/30 grid grid-cols-2 sm:flex sm:justify-end gap-3">
+        <div className="safe-area-bottom pb-24 sm:pb-4 p-4 border-t border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/30 grid grid-cols-2 sm:flex sm:justify-end gap-3">
           <button
             type="button"
             onClick={onClose}

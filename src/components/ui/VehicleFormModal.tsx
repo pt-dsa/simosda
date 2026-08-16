@@ -290,7 +290,7 @@ export function VehicleFormModal({ isOpen, onClose, initialData, employees, onSa
 
           </div>
           
-          <div className="p-4 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 flex justify-end gap-3 safe-area-bottom pb-6 sm:pb-4">
+          <div className="p-4 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 flex justify-end gap-3 safe-area-bottom pb-24 sm:pb-4">
             <button 
               type="button" 
               disabled={saving}
