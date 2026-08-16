@@ -96,9 +96,46 @@ export function optionalCoordinatePayload(latitudeValue: unknown, longitudeValue
 }
 
 export function osmMiniMapUrl(latitude: number, longitude: number): string {
-  const delta = 0.004;
-  const bbox = [longitude - delta, latitude - delta, longitude + delta, latitude + delta]
-    .map((value) => value.toFixed(7))
-    .join(",");
-  return `https://www.openstreetmap.org/export/embed.html?bbox=${encodeURIComponent(bbox)}&layer=mapnik&marker=${encodeURIComponent(`${latitude.toFixed(7)},${longitude.toFixed(7)}`)}`;
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  body { padding: 0; margin: 0; }
+  html, body, #map { height: 100%; width: 100%; background: #f3f4f6; }
+  .leaflet-control-attribution { font-size: 9px !important; background: rgba(255,255,255,0.7) !important; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+  var map = L.map('map', {
+    center: [${latitude}, ${longitude}],
+    zoom: 16,
+    zoomControl: false,
+    attributionControl: false
+  });
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19
+  }).addTo(map);
+  L.control.attribution({position: 'bottomright', prefix: false})
+    .addAttribution('&copy; <a href="https://osm.org/copyright" target="_blank">OSM</a>')
+    .addTo(map);
+  
+  var svgIcon = L.divIcon({
+    html: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" style="fill:#ef4444;filter:drop-shadow(0px 4px 4px rgba(0,0,0,0.3));width:28px;height:28px;margin-top:-28px;margin-left:-14px;"><path d="M192 0C86 0 0 86 0 192c0 77.4 27 122.9 114.1 234.3 35.8 45.9 74.5 95.6 77.9 100.2 3.4-4.6 42.1-54.3 77.9-100.2C357 314.9 384 269.4 384 192 384 86 298 0 192 0zm0 272c-44.2 0-80-35.8-80-80s35.8-80 80-80 80 35.8 80 80-35.8 80-80 80z"/></svg>',
+    className: '',
+    iconSize: [0, 0],
+    iconAnchor: [0, 0]
+  });
+  L.marker([${latitude}, ${longitude}], {icon: svgIcon}).addTo(map);
+</script>
+</body>
+</html>
+  `;
+  return \`data:text/html;charset=utf-8,\${encodeURIComponent(html.trim())}\`;
 }
