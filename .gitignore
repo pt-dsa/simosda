@@ -21,9 +21,11 @@ Thumbs.db
 # TypeScript build cache
 *.tsbuildinfo
 
-# Editor
+# Editor & AI Tooling
 .vscode/
 .idea/
+.agents/
+skill/
 
 # File sementara migrate/patch (tidak diperlukan di repo produksi)
 patch-*.ts
