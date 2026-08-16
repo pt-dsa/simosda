@@ -137,5 +137,5 @@ export function osmMiniMapUrl(latitude: number, longitude: number): string {
 </body>
 </html>
   `;
-  return \`data:text/html;charset=utf-8,\${encodeURIComponent(html.trim())}\`;
+  return `data:text/html;charset=utf-8,${encodeURIComponent(html.trim())}`;
 }
