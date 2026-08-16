@@ -14,7 +14,7 @@ export default defineConfig(() => {
       react(), 
       tailwindcss(),
       VitePWA({
-        registerType: 'autoUpdate',
+        registerType: 'prompt',
         workbox: {
           cleanupOutdatedCaches: true,
           clientsClaim: true,
@@ -41,8 +41,7 @@ export default defineConfig(() => {
             {
               src: 'pwa-512x512.png',
               sizes: '512x512',
-              type: 'image/png',
-              purpose: 'any maskable'
+              type: 'image/png'
             }
           ]
         }

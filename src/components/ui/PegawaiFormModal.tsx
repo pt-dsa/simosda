@@ -391,7 +391,7 @@ export function PegawaiFormModal({
   const institutionSuggestions = mergeSuggestionOptions(INDONESIAN_INSTITUTIONS, fieldOptions.institusi || []);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -589,7 +589,7 @@ export function PegawaiFormModal({
           </form>
         </div>
 
-        <div className="safe-area-bottom p-4 border-t border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/30 grid grid-cols-2 sm:flex sm:justify-end gap-3">
+        <div className="safe-area-bottom pb-6 sm:pb-4 p-4 border-t border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/30 grid grid-cols-2 sm:flex sm:justify-end gap-3">
           <button
             type="button"
             onClick={onClose}

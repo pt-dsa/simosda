@@ -482,7 +482,7 @@ export default function KelolaAkun() {
         </div>
 
         {/* Dashboard Stats (Clickable Filter Cards) */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 min-[400px]:grid-cols-2 md:grid-cols-4 gap-4">
           <button
             type="button"
             onClick={() => setStatusFilter("all")}
@@ -758,7 +758,7 @@ export default function KelolaAkun() {
       {/* Modal form tambah/edit */}
       <AnimatePresence>
         {isFormOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -892,7 +892,7 @@ export default function KelolaAkun() {
                 </label>}
               </div>
 
-              <div className="p-3 sm:p-4 border-t border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/30 flex justify-end gap-3 safe-area-bottom">
+              <div className="p-3 sm:p-4 pb-6 sm:pb-4 border-t border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/30 flex justify-end gap-3 safe-area-bottom">
                 <button onClick={() => setIsFormOpen(false)} disabled={saving} className="flex-1 sm:flex-none min-h-11 px-4 py-2 text-sm font-bold text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50">
                   Batal
                 </button>

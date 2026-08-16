@@ -94,13 +94,12 @@ export function AssetDetailModal({ asset, isOpen, onClose }: AssetDetailModalPro
                           src={`https://maps.google.com/maps?q=${lat},${lng}&z=15&output=embed`}
                           allowFullScreen
                           title="Lokasi Aset"
-                          loading="lazy"
                         />
                         <a
                           href={`https://maps.google.com/?q=${lat},${lng}`}
                           target="_blank"
                           rel="noreferrer"
-                          className="absolute bottom-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 dark:bg-gray-800/90 text-blue-600 text-xs font-semibold px-3 py-1.5 rounded-full shadow-md"
+                          className="absolute bottom-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 dark:bg-gray-800/90 text-blue-600 text-xs font-semibold px-3 py-1.5 rounded-full shadow-md z-10"
                         >
                           Buka di Maps
                         </a>
@@ -122,7 +121,7 @@ export function AssetDetailModal({ asset, isOpen, onClose }: AssetDetailModalPro
       {/* Zoom foto */}
       {zoomedImage && (
         <div
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 p-4"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4"
           onClick={() => setZoomedImage(null)}
         >
           <SafeImage src={zoomedImage} alt="Zoomed" className="max-w-full max-h-full object-contain" />

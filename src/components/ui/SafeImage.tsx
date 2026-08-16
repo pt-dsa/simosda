@@ -50,7 +50,7 @@ export function SafeImage({ src, alt, className, fallbackClassName, fallbackSrcs
       src={sources[sourceIndex]}
       alt={alt}
       className={className}
-      loading={props.loading || "lazy"}
+      loading={props.loading}
       decoding={props.decoding || "async"}
       referrerPolicy={props.referrerPolicy || "no-referrer"}
       onError={() => setSourceIndex((index) => index + 1)}

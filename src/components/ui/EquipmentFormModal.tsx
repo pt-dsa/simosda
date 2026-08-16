@@ -299,7 +299,7 @@ export function EquipmentFormModal({ isOpen, onClose, initialData, employees, on
               <input value={formData.qr_url || ""} onChange={e => setFormData({...formData, qr_url: e.target.value})} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Kosongkan untuk memakai ID aset" />
             </div>
           </div>
-          <div className="p-3 sm:p-4 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 flex justify-end gap-2 safe-area-bottom">
+          <div className="p-4 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 flex justify-end gap-3 safe-area-bottom pb-6 sm:pb-4">
             <button type="button" disabled={isSaving} onClick={onClose} className="flex-1 sm:flex-none min-h-11 px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-full font-medium text-sm transition-all border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 disabled:opacity-50">
               Batal
             </button>
