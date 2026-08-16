@@ -1,0 +1,7 @@
+chore: finalize SIKANDA v1.1.6 release
+
+- Implement contact normalization (08... to 628...)
+- Improve KOP layout and asset code mapping
+- Add local screen capture for administrators
+- Add dashboard KPIs and enhance data visualization
+- Refine backend access logic and security documentation

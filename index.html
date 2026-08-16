@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0f5ad7" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co blob: https://*.tile.openstreetmap.org https://mt1.google.com https://*.basemaps.cartocdn.com https://cdnjs.cloudflare.com https://drive.google.com https://*.googleusercontent.com https://*.usercontent.google.com https://www.appsheet.com https://maps.googleapis.com; connect-src 'self' https://*.supabase.co https://generativelanguage.googleapis.com; frame-src 'self' https://www.openstreetmap.org; base-uri 'self'; form-action 'self'" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>SIMOSDA</title>
+    <script>
+      // SIMOSDA - Bersihkan Service Worker & cache lama (Sekali saja, versi 2)
+      // Migrasi sebelumnya meninggalkan SW & cache basi yang memblokir update.
+      // Setelah pembersihan pertama, SW baru (vite-plugin-pwa, autoUpdate)
+      // akan mengelola cache dengan benar dan selalu mengambil versi terbaru.
+      if ('serviceWorker' in navigator) {
+        var swCleanupDone = false;
+        try {
+          swCleanupDone = sessionStorage.getItem('simosda_sw_cleanup_v2') === '1';
+        } catch (e) {}
+        if (!swCleanupDone) {
+          navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            return Promise.all(registrations.map(function(reg) { return reg.unregister(); }));
+          }).then(function() {
+            if (window.caches && window.caches.keys) {
+              return window.caches.keys().then(function(keys) {
+                return Promise.all(keys.map(function(k) { return window.caches.delete(k); }));
+              });
+            }
+          }).then(function() {
+            try { sessionStorage.setItem('simosda_sw_cleanup_v2', '1'); } catch (e) {}
+            console.log('ServiceWorker lama dibersihkan.');
+          }).catch(function(err) {
+            console.warn('Pembersihan ServiceWorker gagal:', err);
+          });
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

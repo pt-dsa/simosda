@@ -1,0 +1,91 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --animate-radar-pulse: radar-pulse 3s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  
+  @keyframes radar-pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(3.5); opacity: 0; }
+  }
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    min-height: 100%;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    @apply bg-[#e2e8f0] text-gray-900;
+  }
+  .dark body {
+    @apply bg-[#1e293b] text-[#e2e8f0];
+  }
+
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    touch-action: manipulation;
+  }
+}
+
+@layer utilities {
+  .safe-area-bottom {
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+
+  .neuglass, .neu-flat {
+    @apply bg-[#e2e8f0]/40 dark:bg-[#1e293b]/40 backdrop-blur-xl border border-white/60 dark:border-white/5;
+    box-shadow: 
+      8px 8px 16px rgba(163, 177, 198, 0.4), 
+      -8px -8px 16px rgba(255, 255, 255, 0.8);
+  }
+  
+  .dark .neuglass, .dark .neu-flat {
+    box-shadow: 
+      8px 8px 16px rgba(0, 0, 0, 0.6), 
+      -8px -8px 16px rgba(255, 255, 255, 0.05);
+  }
+
+  /* Bayangan 3D (neumorphic) yang bisa ditumpangkan ke kartu BERWARNA tanpa
+     mengubah background-nya. Dipakai oleh kartu ringkasan di Pegawai & Buku Penjagaan. */
+  .neu-raised {
+    box-shadow:
+      8px 8px 16px rgba(163, 177, 198, 0.4),
+      -8px -8px 16px rgba(255, 255, 255, 0.8);
+  }
+  .dark .neu-raised {
+    box-shadow:
+      8px 8px 16px rgba(0, 0, 0, 0.6),
+      -8px -8px 16px rgba(255, 255, 255, 0.05);
+  }
+
+  .neuglass-pressed, .neu-pressed {
+    @apply bg-[#e2e8f0]/20 dark:bg-[#1e293b]/20 backdrop-blur-md border border-white/40 dark:border-white/5;
+    box-shadow: 
+      inset 6px 6px 10px rgba(163, 177, 198, 0.5), 
+      inset -6px -6px 10px rgba(255, 255, 255, 0.9);
+  }
+
+  .dark .neuglass-pressed, .dark .neu-pressed {
+    box-shadow: 
+      inset 6px 6px 10px rgba(0, 0, 0, 0.6), 
+      inset -6px -6px 10px rgba(255, 255, 255, 0.03);
+  }
+}

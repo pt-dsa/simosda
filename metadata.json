@@ -1,0 +1,6 @@
+{
+  "name": "SIMOSDA",
+  "description": "SIMOSDA (Sistem Manajemen Pegawai dan Monitoring Aset Daerah) - Aplikasi terpadu berbasis React, Vite, Tailwind CSS, dan Supabase Backend-as-a-Service",
+  "requestFramePermissions": ["camera", "geolocation"],
+  "majorCapabilities": []
+}

@@ -1,0 +1,34 @@
+name: Supabase Keep-Alive Ping
+
+on:
+  schedule:
+    # Berjalan otomatis setiap 3 hari pada pukul 00:00 UTC
+    - cron: '0 0 */3 * *'
+  workflow_dispatch:
+
+concurrency:
+  group: "keep-alive"
+  cancel-in-progress: true
+
+jobs:
+  ping-supabase:
+    name: Ping Supabase REST Endpoint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send keep-alive ping to Supabase
+        run: |
+          if [ -z "${{ secrets.VITE_SUPABASE_URL }}" ] || [ -z "${{ secrets.VITE_SUPABASE_ANON_KEY }}" ]; then
+            echo "::warning::VITE_SUPABASE_URL atau VITE_SUPABASE_ANON_KEY belum disetel di GitHub Secrets."
+            exit 0
+          fi
+
+          echo "Mengirim ping ringan ke Supabase Auth health endpoint..."
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${{ secrets.VITE_SUPABASE_URL }}/auth/v1/health")
+
+          echo "HTTP Response Status: $HTTP_STATUS"
+          if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 400 ]; then
+            echo "Ping berhasil! Supabase tetap aktif."
+          else
+            echo "::warning::Supabase merespons dengan status $HTTP_STATUS"
+          fi

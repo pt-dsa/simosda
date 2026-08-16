@@ -1,0 +1,6 @@
+# SIMOSDA — robots.txt
+# Aplikasi pemerintah internal; cegah search engine dari mengindeks
+# halaman dashboard, pegawai, dan aset yang bersifat internal.
+
+User-agent: *
+Disallow: /

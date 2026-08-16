@@ -1,0 +1,37 @@
+# Dependensi
+node_modules/
+
+# Build output (di-generate ulang oleh GitHub Actions)
+dist/
+build/
+.test-dist/
+
+# File lokal & sistem
+.DS_Store
+Thumbs.db
+*.log
+
+# Environment & secrets lokal (JANGAN dicommit)
+.env
+.env.*
+
+# Izinkan file contoh env
+!.env.example
+
+# TypeScript build cache
+*.tsbuildinfo
+
+# Editor
+.vscode/
+.idea/
+
+# File sementara migrate/patch (tidak diperlukan di repo produksi)
+patch-*.ts
+test-*.ts
+firebase-applet-config.json
+supabase/.temp/
+
+# MS Office temporary files
+~$*.docx
+~$*.xlsx
+~$*.pptx

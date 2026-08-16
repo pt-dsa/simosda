@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Emulation Preview - SIMOSDA</title>
+    <style>
+        :root {
+            --bg: #0b1120;
+            --text: #f1f5f9;
+            --muted: #94a3b8;
+            --accent: #38bdf8;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 40px 24px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background:
+                radial-gradient(1200px 600px at 20% -10%, rgba(56, 189, 248, 0.12), transparent 60%),
+                radial-gradient(1000px 500px at 90% 0%, rgba(99, 102, 241, 0.10), transparent 55%),
+                var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            font-size: 1.9rem;
+            margin: 0 0 8px;
+            text-align: center;
+            background: linear-gradient(to right, #38bdf8, #818cf8, #38bdf8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            margin: 0 0 44px;
+            text-align: center;
+            max-width: 640px;
+            line-height: 1.5;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 64px;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        .device-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .device-title {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #e2e8f0;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .device-title .brand {
+            color: var(--accent);
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .device-spec {
+            font-size: 0.78rem;
+            font-weight: 400;
+            color: #64748b;
+        }
+
+        .device { position: relative; }
+
+        .device iframe {
+            border: none;
+            background: #ffffff;
+            display: block;
+        }
+
+        /* Layar pantulan (screen glare) — detail realistis */
+        .glare {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 6;
+            pointer-events: none;
+            background: linear-gradient(115deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.05) 24%, transparent 38%);
+            border-radius: inherit;
+            mix-blend-mode: screen;
+        }
+
+        .btn {
+            position: absolute;
+            border-radius: 3px;
+            z-index: 5;
+        }
+
+        /* ================= iPhone 14 Pro Max ================= */
+        .iphone-14-pro-max {
+            background: linear-gradient(135deg, #6b6b70 0%, #3a3a3e 35%, #1f1f22 70%, #5b5b60 100%);
+            border-radius: 58px;
+            padding: 8px;
+            box-shadow:
+                0 0 0 2px rgba(0, 0, 0, 0.9),
+                0 40px 80px -20px rgba(0, 0, 0, 0.7),
+                inset 0 0 12px rgba(255, 255, 255, 0.06);
+        }
+
+        .iphone-14-pro-max iframe {
+            width: 430px;
+            height: 932px;
+            border-radius: 48px;
+        }
+
+        /* Dynamic Island */
+        .iphone-14-pro-max .island {
+            position: absolute;
+            top: 26px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 128px;
+            height: 38px;
+            border-radius: 20px;
+            background: #000;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 14px;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+        }
+
+        .iphone-14-pro-max .island .cam {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #2e3b4e, #0a0f16 70%);
+        }
+
+        .iphone-14-pro-max .island .sensor {
+            position: absolute;
+            right: 14px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 40% 35%, #14202e, #060a10 75%);
+        }
+
+        /* Speaker grill bawah (iPhone) */
+        .iphone-14-pro-max .grill {
+            position: absolute;
+            left: 50%;
+            bottom: 18px;
+            transform: translateX(-50%);
+            width: 118px;
+            height: 5px;
+            border-radius: 3px;
+            background:
+                radial-gradient(2px 2px at 4px 3px, rgba(0,0,0,0.75) 48%, transparent 52%),
+                radial-gradient(2px 2px at 16px 3px, rgba(0,0,0,0.75) 48%, transparent 52%),
+                radial-gradient(2px 2px at 28px 3px, rgba(0,0,0,0.75) 48%, transparent 52%),
+                radial-gradient(2px 2px at 40px 3px, rgba(0,0,0,0.75) 48%, transparent 52%),
+                radial-gradient(2px 2px at 52px 3px, rgba(0,0,0,0.75) 48%, transparent 52%),
+                radial-gradient(2px 2px at 64px 3px, rgba(0,0,0,0.75) 48%, transparent 52%),
+                radial-gradient(2px 2px at 76px 3px, rgba(0,0,0,0.75) 48%, transparent 52%),
+                radial-gradient(2px 2px at 88px 3px, rgba(0,0,0,0.75) 48%, transparent 52%),
+                radial-gradient(2px 2px at 100px 3px, rgba(0,0,0,0.75) 48%, transparent 52%),
+                radial-gradient(2px 2px at 112px 3px, rgba(0,0,0,0.75) 48%, transparent 52%),
+                #1c1c1f;
+        }
+
+        .iphone-14-pro-max .btn-power {
+            right: -4px;
+            top: 300px;
+            width: 4px;
+            height: 118px;
+            border-radius: 2px;
+            background: linear-gradient(180deg, #5b5b60, #2c2c30);
+            box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.6);
+        }
+
+        .iphone-14-pro-max .btn-vol-up {
+            left: -4px;
+            top: 230px;
+            width: 4px;
+            height: 66px;
+            background: linear-gradient(180deg, #5b5b60, #2c2c30);
+        }
+
+        .iphone-14-pro-max .btn-vol-down {
+            left: -4px;
+            top: 304px;
+            width: 4px;
+            height: 66px;
+            background: linear-gradient(180deg, #5b5b60, #2c2c30);
+        }
+
+        /* ================= Samsung Galaxy S24 Ultra ================= */
+        .s24-ultra {
+            background: linear-gradient(140deg, #4b4b50 0%, #232327 45%, #18181b 75%, #3a3a3f 100%);
+            border-radius: 38px;
+            padding: 6px;
+            box-shadow:
+                0 0 0 2px rgba(0, 0, 0, 0.9),
+                0 40px 80px -20px rgba(0, 0, 0, 0.7),
+                inset 0 0 10px rgba(255, 255, 255, 0.05);
+        }
+
+        .s24-ultra iframe {
+            width: 384px;
+            height: 833px;
+            border-radius: 30px;
+        }
+
+        /* Punch-hole kamera (tengah atas) */
+        .s24-ultra .punchhole {
+            position: absolute;
+            top: 26px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 38% 32%, #1b2433, #05070b 75%);
+            box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.9);
+            z-index: 10;
+        }
+
+        .s24-ultra .btn-power {
+            right: -4px;
+            top: 280px;
+            width: 4px;
+            height: 110px;
+            border-radius: 2px;
+            background: linear-gradient(180deg, #4b4b50, #222226);
+            box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.6);
+        }
+
+        .s24-ultra .btn-vol-up {
+            left: -4px;
+            top: 250px;
+            width: 4px;
+            height: 70px;
+            background: linear-gradient(180deg, #4b4b50, #222226);
+        }
+
+        .s24-ultra .btn-vol-down {
+            left: -4px;
+            top: 328px;
+            width: 4px;
+            height: 70px;
+            background: linear-gradient(180deg, #4b4b50, #222226);
+        }
+
+        /* ================= LG Optimus L7 ================= */
+        .lg-optimus-l7 {
+            background: linear-gradient(150deg, #f2f2f4 0%, #b9b9bf 28%, #8f8f96 55%, #c9c9ce 100%);
+            border-radius: 26px;
+            padding: 12px 10px;
+            box-shadow:
+                0 0 0 2px rgba(0, 0, 0, 0.85),
+                0 40px 80px -20px rgba(0, 0, 0, 0.7),
+                inset 0 0 14px rgba(255, 255, 255, 0.55),
+                inset 0 -6px 16px rgba(0, 0, 0, 0.18);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .lg-optimus-l7 .top-bezel {
+            height: 46px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            position: relative;
+        }
+
+        .lg-optimus-l7 .lg-logo {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: #3a3a3e;
+            letter-spacing: 0.02em;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .lg-optimus-l7 .lg-logo .lg-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #c60b1e;
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 900;
+        }
+
+        .lg-optimus-l7 .earpiece {
+            width: 42px;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(180deg, #7c7c82, #a8a8ae);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .lg-optimus-l7 .front-cam {
+            position: absolute;
+            right: 26px;
+            top: 12px;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, #3a4656, #10151d 75%);
+        }
+
+        .lg-optimus-l7 iframe {
+            width: 320px;
+            height: 533px;
+            border-radius: 4px;
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.35);
+        }
+
+        .lg-optimus-l7 .bottom-bezel {
+            height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 34px;
+            padding-top: 4px;
+        }
+
+        .lg-optimus-l7 .capacitive {
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3f3f45;
+            border-radius: 50%;
+            background: radial-gradient(circle at 50% 45%, #d6d6da, #a0a0a6);
+            box-shadow:
+                inset 0 2px 4px rgba(255, 255, 255, 0.6),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.25);
+            user-select: none;
+        }
+
+        .lg-optimus-l7 .capacitive svg {
+            display: block;
+            width: 15px;
+            height: 15px;
+        }
+
+        .lg-optimus-l7 .capacitive.home svg { width: 20px; height: 20px; }
+
+        .footer-note {
+            margin-top: 56px;
+            color: #475569;
+            font-size: 0.78rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>SIMOSDA PWA Device Preview</h1>
+    <p class="subtitle">Simulasi responsivitas layout SIMOSDA pada perangkat riil:<br>iPhone 14 Pro Max · Samsung Galaxy S24 Ultra · LG Optimus L7</p>
+
+    <div class="container">
+        <!-- iPhone 14 Pro Max -->
+        <div class="device-wrapper">
+            <div class="device-title">
+                <span class="brand">Apple</span>
+                iPhone 14 Pro Max
+                <span class="device-spec">430 × 932 · 6.7″ · Dynamic Island</span>
+            </div>
+            <div class="device iphone-14-pro-max">
+                <div class="btn btn-power"></div>
+                <div class="btn btn-vol-up"></div>
+                <div class="btn btn-vol-down"></div>
+                <div class="island"><span class="cam"></span><span class="sensor"></span></div>
+                <div class="glare"></div>
+                <div class="grill"></div>
+                <iframe src="/" title="iPhone 14 Pro Max preview"></iframe>
+            </div>
+        </div>
+
+        <!-- Samsung Galaxy S24 Ultra -->
+        <div class="device-wrapper">
+            <div class="device-title">
+                <span class="brand">Samsung</span>
+                Galaxy S24 Ultra
+                <span class="device-spec">384 × 833 · 6.8″ · Punch-hole</span>
+            </div>
+            <div class="device s24-ultra">
+                <div class="btn btn-power"></div>
+                <div class="btn btn-vol-up"></div>
+                <div class="btn btn-vol-down"></div>
+                <div class="punchhole"></div>
+                <div class="glare"></div>
+                <iframe src="/" title="Galaxy S24 Ultra preview"></iframe>
+            </div>
+        </div>
+
+        <!-- LG Optimus L7 -->
+        <div class="device-wrapper">
+            <div class="device-title">
+                <span class="brand">LG</span>
+                Optimus L7
+                <span class="device-spec">320 × 533 · 4.3″ · Android 4.0 ICS</span>
+            </div>
+            <div class="device lg-optimus-l7">
+                <div class="top-bezel">
+                    <div class="lg-logo"><span class="lg-circle">L</span>G</div>
+                    <div class="earpiece"></div>
+                    <div class="front-cam"></div>
+                </div>
+                <div class="glare"></div>
+                <iframe src="/" title="LG Optimus L7 preview"></iframe>
+                <div class="bottom-bezel">
+                    <div class="capacitive menu" title="Menu">
+                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <rect x="4" y="6" width="16" height="3" rx="1.5"/>
+                            <rect x="4" y="12" width="16" height="3" rx="1.5"/>
+                            <rect x="4" y="18" width="10" height="3" rx="1.5"/>
+                        </svg>
+                    </div>
+                    <div class="capacitive home" title="Home">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true">
+                            <circle cx="12" cy="12" r="8"/>
+                        </svg>
+                    </div>
+                    <div class="capacitive back" title="Back">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M15 5l-7 7 7 7"/>
+                        </svg>
+                    </div>
+                    <div class="capacitive search" title="Search">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
+                            <circle cx="11" cy="11" r="7"/>
+                            <path d="M21 21l-4.3-4.3"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p class="footer-note">Perangkat disimulasikan dengan frame CSS realistis · Viewport mengikuti resolusi CSS asli tiap perangkat</p>
+</body>
+</html>
