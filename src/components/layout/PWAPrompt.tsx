@@ -17,7 +17,7 @@ export function PWAPrompt() {
   if (!offlineReady && !needRefresh) return null;
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2 p-4 bg-white rounded-lg shadow-xl border border-gray-200 w-80 max-w-[calc(100vw-2rem)]">
+    <div className="fixed bottom-20 md:bottom-4 right-4 z-[150] flex flex-col gap-2 p-4 bg-white rounded-lg shadow-xl border border-gray-200 w-80 max-w-[calc(100vw-2rem)]">
       <div className="flex items-start justify-between">
         <h3 className="font-semibold text-gray-800">
           {offlineReady ? 'Aplikasi Siap Offline' : 'Versi Baru Tersedia'}
