@@ -23,6 +23,7 @@ import { AuthContext } from "@/components/layout/AppShell";
 import { can } from "@/lib/rbac";
 import { VehicleFormModal } from "@/components/ui/VehicleFormModal";
 import { normalizeAssetText, optionalAssetNumber, validOptionalAssetNumber } from "@/lib/assetFields";
+import { osmMiniMapUrl } from "@/lib/coordinates";
 import {
   ASSET_CONDITIONS,
   ASSET_CONDITION_UNSET,
@@ -574,7 +575,7 @@ export default function Kendaraan() {
                           height="100%" 
                           frameBorder="0" 
                           style={{ border: 0 }}
-                          src={`https://maps.google.com/maps?q=${lat},${lng}&z=15&output=embed`} 
+                          src={osmMiniMapUrl(Number(lat), Number(lng))} 
                           allowFullScreen 
                           title="Lokasi"
                         />

@@ -4,6 +4,7 @@ import { DetailModal } from "@/components/ui/DetailModal";
 import { assetConditionLabel } from "@/lib/assetCondition";
 import { SafeImage } from "@/components/ui/SafeImage";
 import { resolveAssetPhotoCandidates, resolveAssetPhotoUrl } from "@/lib/media";
+import { osmMiniMapUrl } from "@/lib/coordinates";
 
 // Pola props mandiri (lihat §3 handoff: @types/react tidak terpasang).
 interface AssetDetailModalProps {
@@ -91,7 +92,8 @@ export function AssetDetailModal({ asset, isOpen, onClose }: AssetDetailModalPro
                           width="100%"
                           height="100%"
                           frameBorder="0"
-                          src={`https://maps.google.com/maps?q=${lat},${lng}&z=15&output=embed`}
+                          style={{ border: 0 }}
+                          src={osmMiniMapUrl(Number(lat), Number(lng))}
                           allowFullScreen
                           title="Lokasi Aset"
                         />

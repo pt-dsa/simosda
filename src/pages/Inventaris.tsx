@@ -23,7 +23,7 @@ import { resolveAssetPhotoCandidates, resolveAssetPhotoUrl } from "@/lib/media";
 import { AuthContext } from "@/components/layout/AppShell";
 import { can } from "@/lib/rbac";
 import { toSearchText } from "@/lib/utils";
-import { optionalCoordinatePayload } from "@/lib/coordinates";
+import { optionalCoordinatePayload, osmMiniMapUrl } from "@/lib/coordinates";
 import { normalizeAssetText, optionalAssetNumber, validOptionalAssetNumber } from "@/lib/assetFields";
 import { EquipmentFormModal } from "@/components/ui/EquipmentFormModal";
 import {
@@ -619,7 +619,7 @@ export default function Inventaris() {
                           height="100%" 
                           frameBorder="0" 
                           style={{ border: 0 }}
-                          src={`https://maps.google.com/maps?q=${lat},${lng}&z=15&output=embed`} 
+                          src={osmMiniMapUrl(Number(lat), Number(lng))} 
                           allowFullScreen 
                           title="Lokasi"
                         />
