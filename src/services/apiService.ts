@@ -207,8 +207,21 @@ export const apiService = {
 
   deletePegawai: async (nip: string, options?: { hard?: boolean }) => {
     if (options?.hard) {
+      // Ambil data pegawai untuk mendapatkan path foto di storage sebelum barisnya dihapus
+      const { data: pData } = await supabase.from('pegawai').select('foto_storage_path').eq('nip', nip).single();
+      
       const { error } = await supabase.from('pegawai').delete().eq('nip', nip);
       if (error) throw error;
+      
+      // Hapus seluruh foto dalam folder NIP ini (termasuk yang diupload manual)
+      const { data: files } = await supabase.storage.from(PHOTO_BUCKET).list(`pegawai/${nip}`);
+      if (files && files.length > 0) {
+        const filesToRemove = files.map((x) => `pegawai/${nip}/${x.name}`);
+        await supabase.storage.from(PHOTO_BUCKET).remove(filesToRemove);
+      } else if (pData?.foto_storage_path) {
+        // Fallback jika tidak ada di dalam folder pegawai/nip tapi ada path-nya
+        await supabase.storage.from(PHOTO_BUCKET).remove([pData.foto_storage_path]);
+      }
     } else {
       const { error } = await supabase.from('pegawai').update({ is_active: false }).eq('nip', nip);
       if (error) throw error;
@@ -232,8 +245,22 @@ export const apiService = {
   },
 
   deleteAsset: async (table: "assets_vehicle" | "assets_equipment", assetId: string) => {
+    // Ambil path foto sebelum row dihapus
+    const { data: aData } = await supabase.from(table).select('foto_storage_path').eq('asset_id', assetId).single();
+
     const { error } = await supabase.from(table).delete().eq('asset_id', assetId);
     if (error) throw error;
+    
+    // Hapus seluruh foto dalam folder asset ini
+    const { data: files } = await supabase.storage.from('asset-photos').list(assetId);
+    if (files && files.length > 0) {
+      const filesToRemove = files.map((x) => `${assetId}/${x.name}`);
+      await supabase.storage.from('asset-photos').remove(filesToRemove);
+    } else if (aData?.foto_storage_path) {
+      // Fallback
+      await supabase.storage.from('asset-photos').remove([aData.foto_storage_path]);
+    }
+    
     notifyMutation([table]);
     return { ok: true as const, asset_id: assetId };
   },
