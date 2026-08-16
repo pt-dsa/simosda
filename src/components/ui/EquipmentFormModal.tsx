@@ -35,7 +35,7 @@ export function EquipmentFormModal({ isOpen, onClose, initialData, employees, on
       setPhotoFile(null);
       setAttachmentFiles([]);
     }
-  }, [isOpen, initialData]);
+  }, [isOpen]);
 
   if (!isOpen) return null;
   const canWriteAssets = true; // Modal is only opened if user has permission
@@ -183,55 +183,55 @@ export function EquipmentFormModal({ isOpen, onClose, initialData, employees, on
             )}
             <div className="flex flex-col gap-1">
               <label className="text-xs font-bold text-gray-600 dark:text-gray-300">Kode Barang *</label>
-              <input required value={formData.kode_barang || ""} onChange={e => setFormData({...formData, kode_barang: e.target.value})} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Kode inventaris/barang" />
+              <input required value={formData.kode_barang || ""} onChange={e => setFormData(prev => ({...prev, kode_barang: e.target.value}))} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Kode inventaris/barang" />
             </div>
             <div className="flex flex-col gap-1">
               <label className="text-xs font-medium text-gray-500">OPD</label>
-              <input value={formData.opd || ""} onChange={e => setFormData({...formData, opd: e.target.value})} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Nama OPD" />
+              <input value={formData.opd || ""} onChange={e => setFormData(prev => ({...prev, opd: e.target.value}))} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Nama OPD" />
             </div>
             <div className="flex flex-col gap-1">
               <label className="text-xs font-medium text-gray-500">INDEX</label>
-              <input value={formData.kib_index || ""} onChange={e => setFormData({...formData, kib_index: e.target.value})} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Boleh dikosongkan dan dilengkapi nanti" />
+              <input value={formData.kib_index || ""} onChange={e => setFormData(prev => ({...prev, kib_index: e.target.value}))} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Boleh dikosongkan dan dilengkapi nanti" />
             </div>
             <div className="flex flex-col gap-1">
               <label className="text-xs font-bold text-gray-600 dark:text-gray-300">Nama Barang *</label>
-              <input required value={formData.nama_aset || ""} onChange={e => setFormData({...formData, nama_aset: e.target.value})} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Contoh: Papan Tulis" />
+              <input required value={formData.nama_aset || ""} onChange={e => setFormData(prev => ({...prev, nama_aset: e.target.value}))} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Contoh: Papan Tulis" />
             </div>
             <div className="flex flex-col gap-1">
               <label className="text-xs font-medium text-gray-500">Nama Umum / Merk *</label>
-              <input required value={formData.merk || ""} onChange={e => setFormData({...formData, merk: e.target.value})} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Contoh: Panasonic" />
+              <input required value={formData.merk || ""} onChange={e => setFormData(prev => ({...prev, merk: e.target.value}))} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Contoh: Panasonic" />
             </div>
             <div className="flex flex-col gap-1">
               <label className="text-xs font-medium text-gray-500">Kategori</label>
-              <input value={formData.jenis || ""} onChange={e => setFormData({...formData, jenis: e.target.value})} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Contoh: Elektronik" />
+              <input value={formData.jenis || ""} onChange={e => setFormData(prev => ({...prev, jenis: e.target.value}))} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Contoh: Elektronik" />
             </div>
             <div className="flex flex-col gap-1">
               <label className="text-xs font-medium text-gray-500">Jumlah</label>
-              <input type="number" min="0.01" step="any" value={formData.jumlah ?? ""} onChange={e => setFormData({...formData, jumlah: e.target.value ? Number(e.target.value) : undefined})} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Contoh: 10" />
+              <input type="number" min="0.01" step="any" value={formData.jumlah ?? ""} onChange={e => setFormData(prev => ({...prev, jumlah: e.target.value ? Number(e.target.value) : undefined}))} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Contoh: 10" />
             </div>
             <div className="flex flex-col gap-1">
               <label className="text-xs font-medium text-gray-500">Satuan</label>
-              <input value={formData.satuan || ""} onChange={e => setFormData({...formData, satuan: e.target.value})} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Contoh: Buah" />
+              <input value={formData.satuan || ""} onChange={e => setFormData(prev => ({...prev, satuan: e.target.value}))} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Contoh: Buah" />
             </div>
             <div className="flex flex-col gap-1">
               <label className="text-xs font-medium text-gray-500">Tahun Pembelian</label>
-              <input type="number" min="1900" max={new Date().getFullYear() + 1} value={formData.tahun ?? ""} onChange={e => setFormData({...formData, tahun: e.target.value || undefined})} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Contoh: 2018" />
+              <input type="number" min="1900" max={new Date().getFullYear() + 1} value={formData.tahun ?? ""} onChange={e => setFormData(prev => ({...prev, tahun: e.target.value || undefined}))} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Contoh: 2018" />
             </div>
             <div className="flex flex-col gap-1">
               <label className="text-xs font-medium text-gray-500">Register</label>
-              <input value={formData.register_barang || ""} onChange={e => setFormData({...formData, register_barang: e.target.value})} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Nomor register" />
+              <input value={formData.register_barang || ""} onChange={e => setFormData(prev => ({...prev, register_barang: e.target.value}))} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Nomor register" />
             </div>
             <div className="flex flex-col gap-1">
               <label className="text-xs font-medium text-gray-500">Bidang</label>
-              <input value={formData.bidang || ""} onChange={e => setFormData({...formData, bidang: e.target.value})} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Bidang/unit organisasi" />
+              <input value={formData.bidang || ""} onChange={e => setFormData(prev => ({...prev, bidang: e.target.value}))} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Bidang/unit organisasi" />
             </div>
             <div className="md:col-span-2 flex flex-col gap-1">
               <label className="text-xs font-medium text-gray-500">Spesifikasi</label>
-              <textarea rows={3} value={formData.spesifikasi || ""} onChange={e => setFormData({...formData, spesifikasi: e.target.value})} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Spesifikasi teknis barang" />
+              <textarea rows={3} value={formData.spesifikasi || ""} onChange={e => setFormData(prev => ({...prev, spesifikasi: e.target.value}))} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Spesifikasi teknis barang" />
             </div>
             <div className="md:col-span-2 flex flex-col gap-1">
               <label className="text-xs font-medium text-gray-500">Daftar INDEX per Unit</label>
-              <textarea rows={3} value={(formData.unit_indexes || []).join("\n")} onChange={e => setFormData({...formData, unit_indexes: e.target.value.split(/\r?\n/).map(v => v.trim()).filter(Boolean)})} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Satu INDEX per baris untuk aset hasil penggabungan" />
+              <textarea rows={3} value={(formData.unit_indexes || []).join("\n")} onChange={e => setFormData(prev => ({...prev, unit_indexes: e.target.value.split(/\r?\n/).map(v => v.trim()).filter(Boolean)}))} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Satu INDEX per baris untuk aset hasil penggabungan" />
               <p className="text-[11px] text-gray-400">Jumlah INDEX yang diisi tidak mengubah total Jumlah barang.</p>
             </div>
             <div className="md:col-span-2">
@@ -258,7 +258,7 @@ export function EquipmentFormModal({ isOpen, onClose, initialData, employees, on
             </div>
             <div className="flex flex-col gap-1">
               <label className="text-xs font-medium text-gray-500">Kondisi {!formData.asset_id && <span className="text-red-500">*</span>}</label>
-              <select required={!formData.asset_id} value={isValidAssetCondition(formData.kondisi) ? normalizeAssetCondition(formData.kondisi) : ""} onChange={e => setFormData({...formData, kondisi: e.target.value})} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm text-gray-900 dark:text-gray-100">
+              <select required={!formData.asset_id} value={isValidAssetCondition(formData.kondisi) ? normalizeAssetCondition(formData.kondisi) : ""} onChange={e => setFormData(prev => ({...prev, kondisi: e.target.value}))} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm text-gray-900 dark:text-gray-100">
                 <option value="" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800">-- Pilih kondisi berdasarkan pemeriksaan --</option>
                 {ASSET_CONDITIONS.map((condition) => <option key={condition} value={condition} className="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800">{condition}</option>)}
               </select>
@@ -266,15 +266,15 @@ export function EquipmentFormModal({ isOpen, onClose, initialData, employees, on
             </div>
             <div className="flex flex-col gap-1">
               <label className="text-xs font-medium text-gray-500">Harga Pembelian</label>
-              <input type="number" min="0" step="1" value={formData.harga_pembelian ?? ""} onChange={e => setFormData({...formData, harga_pembelian: e.target.value})} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Nilai rupiah tanpa pemisah" />
+              <input type="number" min="0" step="1" value={formData.harga_pembelian ?? ""} onChange={e => setFormData(prev => ({...prev, harga_pembelian: e.target.value}))} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Nilai rupiah tanpa pemisah" />
             </div>
             <div className="flex flex-col gap-1 md:col-span-2">
               <label className="text-xs font-medium text-gray-500">Lokasi</label>
-              <input value={formData.lokasi || ""} onChange={e => setFormData({...formData, lokasi: e.target.value})} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Lokasi/unit penempatan" />
+              <input value={formData.lokasi || ""} onChange={e => setFormData(prev => ({...prev, lokasi: e.target.value}))} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Lokasi/unit penempatan" />
             </div>
             <div className="flex flex-col gap-1 md:col-span-2">
               <label className="text-xs font-medium text-gray-500">Mutasi</label>
-              <textarea rows={2} value={formData.mutasi || ""} onChange={e => setFormData({...formData, mutasi: e.target.value})} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Catatan mutasi barang" />
+              <textarea rows={2} value={formData.mutasi || ""} onChange={e => setFormData(prev => ({...prev, mutasi: e.target.value}))} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Catatan mutasi barang" />
             </div>
             <div className="md:col-span-2 text-xs font-bold uppercase tracking-wider text-blue-600 border-b border-blue-100 pb-2 mt-2">Lokasi Koordinat dan Media</div>
             <AssetMediaFields
@@ -282,7 +282,7 @@ export function EquipmentFormModal({ isOpen, onClose, initialData, employees, on
               longitude={formData.longitude}
               existingPhoto={formData.foto}
               selectedFile={photoFile}
-              onCoordinatesChange={(latitude, longitude) => setFormData({ ...formData, latitude, longitude })}
+              onCoordinatesChange={(latitude, longitude) => setFormData(prev => ({ ...prev, latitude, longitude }))}
               onFileChange={setPhotoFile}
               onError={(message) => toast.error("Lokasi/Media Belum Siap", message)}
               photoLabel="Foto Inventaris"
@@ -296,7 +296,7 @@ export function EquipmentFormModal({ isOpen, onClose, initialData, employees, on
             </div>
             <div className="flex flex-col gap-1 md:col-span-2">
               <label className="text-xs font-medium text-gray-500">URL / Isi QR</label>
-              <input value={formData.qr_url || ""} onChange={e => setFormData({...formData, qr_url: e.target.value})} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Kosongkan untuk memakai ID aset" />
+              <input value={formData.qr_url || ""} onChange={e => setFormData(prev => ({...prev, qr_url: e.target.value}))} className="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm" placeholder="Kosongkan untuk memakai ID aset" />
             </div>
           </div>
           <div className="p-4 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 flex justify-end gap-3 safe-area-bottom pb-24 sm:pb-4">

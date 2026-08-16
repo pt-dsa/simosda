@@ -36,7 +36,7 @@ export function VehicleFormModal({ isOpen, onClose, initialData, employees, onSa
       setFormData(initialData || {});
       setPhotoFile(null);
     }
-  }, [isOpen, initialData]);
+  }, [isOpen]);
 
   const locations = useMemo(() => {
     const locs = employees.map(e => e.unit_kerja).filter(Boolean) as string[];
@@ -180,19 +180,19 @@ export function VehicleFormModal({ isOpen, onClose, initialData, employees, onSa
             
             <div className="flex flex-col gap-1">
               <label className="text-xs font-bold text-gray-600 dark:text-gray-300">Nomor Polisi *</label>
-              <input required value={formData.no_polisi || ""} onChange={e => setFormData({...formData, no_polisi: e.target.value.toUpperCase()})} className={vehicleInputCls} placeholder="Contoh: AB 1234 CD" />
+              <input required value={formData.no_polisi || ""} onChange={e => setFormData(prev => ({...prev, no_polisi: e.target.value.toUpperCase()}))} className={vehicleInputCls} placeholder="Contoh: AB 1234 CD" />
             </div>
 
 
 
             <div className="flex flex-col gap-1">
               <label className="text-xs font-bold text-gray-600 dark:text-gray-300">Nama Kendaraan *</label>
-              <input required value={formData.nama_aset || ""} onChange={e => setFormData({...formData, nama_aset: e.target.value})} className={vehicleInputCls} placeholder="Contoh: Mobil Dinas Bupati" />
+              <input required value={formData.nama_aset || ""} onChange={e => setFormData(prev => ({...prev, nama_aset: e.target.value}))} className={vehicleInputCls} placeholder="Contoh: Mobil Dinas Bupati" />
             </div>
 
             <div className="flex flex-col gap-1">
               <label className="text-xs font-medium text-gray-500">Jenis Kendaraan</label>
-              <input list="jenis-list" value={formData.jenis_kendaraan || ""} onChange={e => setFormData({...formData, jenis_kendaraan: e.target.value})} className={vehicleInputCls} placeholder="Contoh: Roda 4" />
+              <input list="jenis-list" value={formData.jenis_kendaraan || ""} onChange={e => setFormData(prev => ({...prev, jenis_kendaraan: e.target.value}))} className={vehicleInputCls} placeholder="Contoh: Roda 4" />
               <datalist id="jenis-list">
                 <option value="Roda 2" />
                 <option value="Roda 3" />
@@ -204,7 +204,7 @@ export function VehicleFormModal({ isOpen, onClose, initialData, employees, onSa
 
             <div className="flex flex-col gap-1">
               <label className="text-xs font-medium text-gray-500">Merk / Model *</label>
-              <input required list="merk-list" value={formData.merk || ""} onChange={e => setFormData({...formData, merk: e.target.value})} className={vehicleInputCls} placeholder="Contoh: Toyota Innova" />
+              <input required list="merk-list" value={formData.merk || ""} onChange={e => setFormData(prev => ({...prev, merk: e.target.value}))} className={vehicleInputCls} placeholder="Contoh: Toyota Innova" />
               <datalist id="merk-list">
                 <option value="Toyota" />
                 <option value="Honda" />
@@ -222,7 +222,7 @@ export function VehicleFormModal({ isOpen, onClose, initialData, employees, onSa
 
             <div className="flex flex-col gap-1">
               <label className="text-xs font-medium text-gray-500">Tipe / Kategori</label>
-              <input list="tipe-list" value={formData.tipe || ""} onChange={e => setFormData({...formData, tipe: e.target.value})} className={vehicleInputCls} placeholder="Contoh: Minibus" />
+              <input list="tipe-list" value={formData.tipe || ""} onChange={e => setFormData(prev => ({...prev, tipe: e.target.value}))} className={vehicleInputCls} placeholder="Contoh: Minibus" />
               <datalist id="tipe-list">
                 <option value="Minibus" />
                 <option value="SUV" />
@@ -239,7 +239,7 @@ export function VehicleFormModal({ isOpen, onClose, initialData, employees, onSa
               <label className="text-xs font-medium text-gray-500">Tahun Pembuatan</label>
               <select 
                 value={formData.tahun ?? ""} 
-                onChange={e => setFormData({...formData, tahun: e.target.value ? parseInt(e.target.value, 10) : undefined})} 
+                onChange={e => setFormData(prev => ({...prev, tahun: e.target.value ? parseInt(e.target.value, 10) : undefined}))} 
                 className={`${vehicleInputCls} text-gray-900 dark:text-gray-100`}
               >
                 <option value="" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800">-- Pilih Tahun --</option>
@@ -258,7 +258,7 @@ export function VehicleFormModal({ isOpen, onClose, initialData, employees, onSa
                   value={formData.harga_pembelian != null ? formatNumber(Number(formData.harga_pembelian)) : ""} 
                   onChange={e => {
                     const raw = e.target.value.replace(/[^0-9]/g, '');
-                    setFormData({...formData, harga_pembelian: raw ? parseInt(raw, 10) : undefined});
+                    setFormData(prev => ({...prev, harga_pembelian: raw ? parseInt(raw, 10) : undefined}));
                   }} 
                   className={`${vehicleInputCls} pl-9 w-full`} 
                   placeholder="Contoh: 150.000.000" 
@@ -268,17 +268,17 @@ export function VehicleFormModal({ isOpen, onClose, initialData, employees, onSa
 
             <div className="flex flex-col gap-1">
               <label className="text-xs font-medium text-gray-500">Nomor BPKB</label>
-              <input value={formData.no_bpkb || ""} onChange={e => setFormData({...formData, no_bpkb: e.target.value})} className={vehicleInputCls} placeholder="Nomor BPKB Kendaraan" />
+              <input value={formData.no_bpkb || ""} onChange={e => setFormData(prev => ({...prev, no_bpkb: e.target.value}))} className={vehicleInputCls} placeholder="Nomor BPKB Kendaraan" />
             </div>
             
             <div className="flex flex-col gap-1">
               <label className="text-xs font-medium text-gray-500">Nomor Mesin</label>
-              <input value={formData.no_mesin || ""} onChange={e => setFormData({...formData, no_mesin: e.target.value})} className={vehicleInputCls} placeholder="Nomor Mesin" />
+              <input value={formData.no_mesin || ""} onChange={e => setFormData(prev => ({...prev, no_mesin: e.target.value}))} className={vehicleInputCls} placeholder="Nomor Mesin" />
             </div>
 
             <div className="flex flex-col gap-1">
               <label className="text-xs font-medium text-gray-500">Nomor Rangka</label>
-              <input value={formData.no_rangka || ""} onChange={e => setFormData({...formData, no_rangka: e.target.value})} className={vehicleInputCls} placeholder="Nomor Rangka" />
+              <input value={formData.no_rangka || ""} onChange={e => setFormData(prev => ({...prev, no_rangka: e.target.value}))} className={vehicleInputCls} placeholder="Nomor Rangka" />
             </div>
 
             <div className="md:col-span-2">
@@ -310,7 +310,7 @@ export function VehicleFormModal({ isOpen, onClose, initialData, employees, onSa
               <select 
                 required={!formData.asset_id} 
                 value={isValidAssetCondition(formData.kondisi) ? normalizeAssetCondition(formData.kondisi) : ""} 
-                onChange={e => setFormData({...formData, kondisi: e.target.value})} 
+                onChange={e => setFormData(prev => ({...prev, kondisi: e.target.value}))} 
                 className={`${vehicleInputCls} text-gray-900 dark:text-gray-100`}
               >
                 <option value="" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800">-- Pilih kondisi berdasarkan fisik --</option>
@@ -327,7 +327,7 @@ export function VehicleFormModal({ isOpen, onClose, initialData, employees, onSa
 
             <div className="flex flex-col gap-1 md:col-span-2">
               <label className="text-xs font-medium text-gray-500">Lokasi / Unit Kerja</label>
-              <input list="lokasi-list" value={formData.lokasi || ""} onChange={e => setFormData({...formData, lokasi: e.target.value})} className={vehicleInputCls} placeholder="Lokasi penempatan kendaraan" />
+              <input list="lokasi-list" value={formData.lokasi || ""} onChange={e => setFormData(prev => ({...prev, lokasi: e.target.value}))} className={vehicleInputCls} placeholder="Lokasi penempatan kendaraan" />
               <datalist id="lokasi-list">
                 {locations.map(loc => (
                   <option key={loc} value={loc} />
@@ -346,7 +346,7 @@ export function VehicleFormModal({ isOpen, onClose, initialData, employees, onSa
               longitude={formData.longitude}
               existingPhoto={formData.foto}
               selectedFile={photoFile}
-              onCoordinatesChange={(latitude, longitude) => setFormData({ ...formData, latitude, longitude })}
+              onCoordinatesChange={(latitude, longitude) => setFormData(prev => ({ ...prev, latitude, longitude }))}
               onFileChange={setPhotoFile}
               onError={(message) => toast.error("Lokasi/Media Belum Siap", message)}
               photoLabel="Foto Kendaraan"
