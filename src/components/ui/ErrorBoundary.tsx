@@ -36,11 +36,24 @@ export class ErrorBoundary extends React.Component<Props, State> {
   }
 
   componentDidCatch(error: unknown, info: React.ErrorInfo) {
+    if (this.state.errorMessage.includes("Failed to fetch dynamically imported module")) {
+       const hasReloaded = sessionStorage.getItem('simosda_reloaded_for_chunk');
+       if (!hasReloaded) {
+          sessionStorage.setItem('simosda_reloaded_for_chunk', 'true');
+          window.location.reload();
+          return;
+       }
+    }
     // Log untuk debugging — di production bisa dikirim ke Sentry/monitoring
     console.error("[SIMOSDA] Uncaught error di ErrorBoundary:", error, info.componentStack);
   }
 
   private handleReload = () => {
+    if (this.state.errorMessage.includes("Failed to fetch dynamically imported module")) {
+      sessionStorage.removeItem('simosda_reloaded_for_chunk');
+      window.location.reload();
+      return;
+    }
     // Reset state dan coba render ulang
     this.setState({ hasError: false, errorMessage: "" });
   };
